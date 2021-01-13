@@ -1,0 +1,597 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+ 
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+     <!-- web3.js 1.0.0 -->    
+    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.0.0-beta.36/dist/web3.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.2.0/dist/web3.min.js"></script>
+	<!-- JSpdf -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js" integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/" crossorigin="anonymous"></script>
+	<!-- htmlcanvas -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
+    <meta charset="UTF-8">
+	<!-- IPFS -->
+    <script src="https://unpkg.com/ipfs-http-client@30.1.3/dist/index.js"></script>
+	<script src="https://bundle.run/buffer@5.2.1"></script>
+	<!-- QR CODE -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+ 
+	<!-- koding front -->
+	<title>Penerbitan Ijazah Berbasis Blockchain</title>
+  </head>
+  <body class="bg-light">
+ 
+    <div class="container">
+      <div class="py-5 text-center">
+        <h2>PENERBITAN IJAZAH BERBASIS BLOCKCHAIN</h2>
+      </div>
+ 
+      <div class="row">
+        <div class="col-md-8 order-md-2">
+          <h4 class="d-flex justify-content-between align-items-center mb-3">
+			<span>Data Ijazah</span>
+			<span id ="blockNumber" class="badge badge-secondary badge-pill">0</span>
+          </h4>
+          <div class="card d-flex px-9 py-9">
+            <div class="card-body py-9">
+				<div id='printtabelij'>
+				<table id="example1" class="table table-bordered table-striped " style="font-size: small;">
+                    <thead >
+						<th style="width:25%">Account</th>
+                        <td><span id="account"></span></td>
+                    </thead>
+                    <tbody>
+						<tr>
+							<th style="width:25%">TX</th>
+							<td><span id="transactionHash"></span></td>
+						  </tr>
+                      <tr>
+                        <th>ID</th>
+                        <td><span id="blockHash"></span></td>
+                      </tr>
+					  <tr>
+                        <th>Nama</th>
+                        <td><span  id ="nama"></span></td>
+					  </tr>
+					  <tr>
+                        <th>Tempat Lahir</th>
+                        <td><span  id ="tl"></span></td>
+					  </tr>
+					  <tr>
+                        <th>Tanggal Lahir</th>
+                        <td><span  id ="tl"></span> <span  id ="tlh"></span> <span  id ="blh"></span> <span  id ="thlh"></span></td>
+					  </tr>
+					  <tr>
+                        <th>NIK</th>
+                        <td><span  id ="nik"></span></td>
+					  </tr>
+					  <tr>
+                        <th>NIM</th>
+                        <td><span  id ="nim"></span></td>
+					  </tr>
+					  <tr>
+                        <th>Tanggal Lulus</th>
+                        <td><span  id ="tglulus"></span></p></td>
+					  </tr>
+					  <tr>
+                        <th>NIRL</th>
+                        <td><span id ="nirl"></span></td>
+					  </tr>
+					  <tr>
+                        <th>Nomor Ijazah Nasional</th>
+                        <td><span  id ="noijazah"></span></td>
+					  </tr>
+					  <tr>
+                        <th>Nomor Seri Ijazah</th>
+                        <td><span  id ="noseri"></span></td>
+					  </tr>
+					  <tr>
+                        <th>Tanggal Wisuda</th>
+                        <td><span  id ="twd"></span> <span  id ="bwd"></span> <span  id ="thwd"></span></td>
+					  </tr>
+                      </tfoot>
+					</table>
+            </div>
+					<br>
+              <div class="card-text text">
+                
+					<button id="bpdf" class="btn btn-primary btn-lg btn-block">SAVE
+					</button>
+					
+              </div>
+            </div>
+		  </div>
+		  <br>
+		  <div class="card d-flex px-9 py-9">
+			<div class="card-body py-9">
+				<p><h4 class="card-title text-center mb-2">UPLOAD FILE</h4></p>
+				<div class="input-group">
+					<div class="input-group-prepend">
+						
+					  <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+					</div>
+					<div class="custom-file">
+					  <input type="file" class="custom-file-input" id="upload"
+						aria-describedby="inputGroupFileAddon01">
+					  <label class="custom-file-label" for="inputGroupFile01">Pilih File Ijazah</label>
+					</div>
+				  </div>
+				  <br>
+				  <div id='printarea'>
+				  <table id="example1" class="table table-bordered table-striped " style="font-size: small;">
+					<thead >
+					</thead>
+					<tbody>
+						<tr>
+							<th style="width:25%">Data IPFS Address</th>
+							<td><span id="link"></span></td>
+						  </tr>
+					</table>
+					<center>
+					<div id="barCode"></div>
+				</center>
+			</div>
+				<input type="button" id="print" class="btn btn-primary btn-lg btn-block" onclick="printlink('printarea')" value="PRINT">
+					</button>
+				
+				
+				</div></div>
+		</div>
+        <div class="col-md-4 order-md-1">
+          <h4 class="text-muted">Input Data Ijazah</h4>
+              <div class="mb-3">
+				<p id="error" class="text-danger"></p>
+                <label for="username">Nama</label>
+                <input type="text" class="form-control" id="fnama" placeholder="Nama" required>
+			  </div>
+			  <div class="form-group">
+				<label for="username">Tempat dan Tanggal Lahir</label>
+				<div class="input-group">
+				  <div class="input-group-prepend">
+					<input class="form-control" type="text" id="ftl" placeholder="Tempat Lahir" >
+					<div class="input-group-prepend">
+						<input class="form-control" type="number" id="ftlh" placeholder="Tanggal" >
+						<select class="form-control" type="text" id="fblh" placeholder="Bulan" >
+						<option value="Januari">Januari</option>
+						<option value="Februari">Februari</option>
+						<option value="Maret">Maret</option>
+						<option value="April">April</option>
+						<option value="Mei">Mei</option>
+						<option value="Juni">Juni</option>
+						<option value="Juli">Juli</option>
+						<option value="Agustus">Agustus</option>
+						<option value="September">September</option>
+						<option value="Oktober">Oktober</option>
+						<option value="November">November</option>
+						<option value="Desember">Desember</option>
+						</select>
+						<input class="form-control" type="number" id="fthlh" placeholder="Tahun" size="5" >
+					  </div>
+				  </div>
+				</div>
+			  <div class="mb-3">
+                <label for="username">NIK</label>
+                <input type="text" class="form-control" id="fnik" placeholder="Nomor Induk Kependudukan" required>
+              </div>
+              <div class="mb-3">
+                <label for="username">NIM</label>
+                <input type="text" class="form-control" id="fnim" placeholder="Nomor Induk Mahasiswa" required>
+			  </div>
+			  <div class="mb-3">
+                <label for="username">Tanggal Lulus</label>
+                <input type="date" class="form-control" id="ftglulus" placeholder="Tanggal Lulus" required>
+			  </div>
+              <div class="mb-3">
+                <label for="username">NIRL</label>
+                <input type="text" class="form-control" id="fnirl" placeholder="Nomor Induk Registrasi Lulus" required>
+              </div>
+              <div class="mb-3">
+                <label for="username">No Ijazah Nasional</label>
+                <input type="text" class="form-control" id="fnoijazah" placeholder="No Ijazah Nasional" required>
+              </div>
+              <div class="mb-3">
+                <label for="username">No Seri Ijazah</label>
+                <input type="text" class="form-control" id="fnoseri" placeholder="No Seri Ijazah" required>
+			  </div>
+			  <div class="input-group">
+				<label for="username">Tanggal Wisuda</label>
+				<div class="input-group-prepend">
+				  <input class="form-control" type="number" id="ftwd" placeholder="Tanggal" >
+				  <select class="form-control" type="text" id="fbwd" placeholder="Bulan" >
+				  <option value="Januari">Januari</option>
+				  <option value="Februari">Februari</option>
+				  <option value="Maret">Maret</option>
+				  <option value="April">April</option>
+				  <option value="Mei">Mei</option>
+				  <option value="Juni">Juni</option>
+				  <option value="Juli">Juli</option>
+				  <option value="Agustus">Agustus</option>
+				  <option value="September">September</option>
+				  <option value="Oktober">Oktober</option>
+				  <option value="November">November</option>
+				  <option value="Desember">Desember</option>
+				  </select>
+				  <input class="form-control" type="number" id="fthwd" placeholder="Tahun" size="5" >
+				</div>
+			  </div>
+            <hr class="mb-4">
+            <button id="button" class="btn btn-primary btn-lg btn-block">SUBMIT
+			</button>
+			
+        </div>
+      </div>
+	 
+</div>
+      <footer class="my-5 pt-5 text-muted text-center text-small">
+        <p class="mb-1">&copy; 2020 STMIK INDONESIA PADANG</p>
+      </footer>
+    </div>
+ 
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" ></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" ></script>
+    <script>
+ 
+      //koding smart contract
+     
+       // Input our code here 
+	   if (typeof web3 !== 'undefined') {
+        web3 = new Web3(web3.currentProvider);
+		
+      } else {
+        // Set the provider 
+        web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"));
+      }
+      var abi = [
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_address",
+				"type": "address"
+			},
+			{
+				"name": "_nama",
+				"type": "bytes32"
+			},
+			{
+				"name": "_nik",
+				"type": "uint256"
+			},
+			{
+				"name": "_nim",
+				"type": "uint256"
+			},
+			{
+				"name": "_tglulus",
+				"type": "string"
+			},
+			{
+				"name": "_nirl",
+				"type": "uint256"
+			},
+			{
+				"name": "_noijazah",
+				"type": "uint256"
+			},
+			{
+				"name": "_noseri",
+				"type": "string"
+			}
+		],
+		"name": "setHolder",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"name": "nama",
+				"type": "bytes32"
+			},
+			{
+				"indexed": false,
+				"name": "nik",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"name": "nim",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"name": "tglulus",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"name": "nirl",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"name": "noijazah",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"name": "noseri",
+				"type": "string"
+			}
+		],
+		"name": "HolderInfo",
+		"type": "event"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "countHolders",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_address",
+				"type": "address"
+			}
+		],
+		"name": "getHolder",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bytes32"
+			},
+			{
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"name": "",
+				"type": "string"
+			},
+			{
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getHolders",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address[]"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "holderAccts",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	}
+];
+      var contractAddress = "0x49C16D1c6Bb125A062a9B0e963277E7A8D4Dea32";
+      async function init(){
+        Ijazah = await new web3.eth.Contract (abi, contractAddress);
+      var accounts = await web3.eth.getAccounts();
+      web3.eth.defaultAccount = accounts[0];
+        
+      }
+      init();
+		async function count(){
+        Ijazah.methods.countHolders().call().then(function(result){
+          document.getElementById('countHolders').textContent = result;
+        });
+
+      }
+		//Methods Submit Data Ijazah
+      	async function submit(){
+        var fnama = web3.utils.asciiToHex(document.getElementById('fnama').value);
+		var fnik = document.getElementById('fnik').value;
+		var fnim = document.getElementById('fnim').value;
+		var ftglulus = document.getElementById('ftglulus').value;
+		var fnirl = document.getElementById('fnirl').value;
+		var fnoijazah = document.getElementById('fnoijazah').value;
+		var fnoseri= document.getElementById('fnoseri').value;
+		var ftl = document.getElementById('ftl').value;
+		var ftlh = document.getElementById('ftlh').value;
+		var fblh = document.getElementById('fblh').value;
+		var fthlh = document.getElementById('fthlh').value;
+		var ftwd = document.getElementById('ftwd').value;
+		var fbwd = document.getElementById('fbwd').value;
+		var fthwd = document.getElementById('fthwd').value;
+		//Methods Hasil Ijazah
+        Ijazah.methods.setHolder(web3.eth.defaultAccount, fnama, fnik, fnim, ftglulus, fnirl, fnoijazah, fnoseri).send({from: web3.eth.defaultAccount, gas: 3000000}).on('receipt', function(receipt){
+		document.getElementById('error').style.display = 'none';
+		document.getElementById('blockHash').textContent = receipt.blockHash;
+		document.getElementById('blockNumber').textContent = receipt.blockNumber;
+		  document.getElementById('nama').textContent = web3.utils.hexToAscii(receipt.events.HolderInfo.returnValues.nama);
+          document.getElementById('nik').textContent = receipt.events.HolderInfo.returnValues.nik;
+		  document.getElementById('nim').textContent = receipt.events.HolderInfo.returnValues.nim;
+		  document.getElementById('tglulus').textContent = receipt.events.HolderInfo.returnValues.tglulus;
+		  document.getElementById('nirl').textContent = receipt.events.HolderInfo.returnValues.nirl;
+		  document.getElementById('noijazah').textContent = receipt.events.HolderInfo.returnValues.noijazah;
+		  document.getElementById('noseri').textContent = receipt.events.HolderInfo.returnValues.noseri;
+		  document.getElementById('tl').textContent = ftl;
+		  document.getElementById('tlh').textContent = ftlh;
+		  document.getElementById('blh').textContent = fblh;
+		  document.getElementById('thlh').textContent = fthlh;
+		  document.getElementById('twd').textContent = ftwd;
+		  document.getElementById('bwd').textContent = fbwd;
+		  document.getElementById('thwd').textContent = fthwd;
+		  document.getElementById('account').textContent = web3.eth.defaultAccount;
+		  txhash = "<a href='https://ropsten.etherscan.io/tx/" + receipt.transactionHash+ "'>" + receipt.transactionHash + "</a>";;
+		document.getElementById("transactionHash").innerHTML = txhash;
+		}).on('error', function(error){
+          document.getElementById('error').style.display = 'block';
+          document.getElementById('error').textContent = error;
+       
+        });
+	  }
+      document.getElementById('button').addEventListener('click', submit);
+
+	//jsPDF
+	  var doc = new jsPDF({
+  		orientation: 'landscape'
+		})
+	  async function pdf(){
+		doc.setProperties({
+        title : 'Ijazah STMIK Indonesia Padang',
+        subject : 'Ijazah',
+        author : 'STMIK Indonesia Padang',
+        keywords : 'Ijazah',
+        creator : 'STMIK Indonesia Padang'
+    });
+		doc.setFont('times', 'normal')
+		doc.setFontSize(12);
+		doc.text('TX', 10, 203)
+		doc.text(':', 16, 203)
+		doc.text(document.getElementById('transactionHash').textContent, 17, 203)
+		doc.text('No Seri Ijazah', 10, 5)
+		doc.text(':', 35, 5)
+		doc.text(document.getElementById('noseri').textContent, 37, 5)
+		doc.text('ID', 10, 208)
+		doc.text(':', 16, 208)
+		doc.text(document.getElementById('blockHash').textContent, 17, 208)
+		doc.text('NIRL : '+document.getElementById('nirl').textContent, 170, 5)
+		doc.setFontSize(16)
+		doc.text('SEKOLAH TINGGI MANAJEMEN INFORMATIKA DAN KOMPUTER', 60, 17)
+		doc.setFontSize(24)
+		doc.text('STMIK INDONESIA', 108, 27)
+		doc.setFontSize(10)
+		doc.text('Izin Operasional: Keputusan Menteri Pendidikan Nasional Republik Indonesia Nomor: 04/D/O/2002', 74, 32)
+		doc.setFontSize(12)
+		doc.text('Memberikan Ijazah Kepada', 77, 47)
+		doc.text(':', 127, 47)
+		doc.text(document.getElementById('nama').textContent, 129, 47)
+		doc.text('Tempat dan Tanggal Lahir', 77, 52)
+		doc.text(':', 127, 52)
+		doc.text(document.getElementById('tl').textContent+', '+document.getElementById('tlh').textContent+' '+document.getElementById('blh').textContent+' '+document.getElementById('thlh').textContent,129, 52)
+		doc.text('NPM', 77, 57)
+		doc.text(':', 127, 57)
+		doc.text(document.getElementById('nim').textContent, 129, 57)
+		doc.text('NIK', 77, 62)
+		doc.text(':', 127, 62)
+		doc.text(document.getElementById('nik').textContent, 129, 62)
+		doc.text('Program Pendidikan', 77, 67)
+		doc.text(':', 127, 67)
+		doc.text('Sarjana', 129, 67)
+		doc.text('Program Studi', 77, 72)
+		doc.text(':', 127, 72)
+		doc.text('Sistem Informasi', 129, 72)
+		doc.text('Tanggal Lulus', 77, 77)
+		doc.text(':', 127, 77)
+		doc.text(document.getElementById('tglulus').textContent, 129, 77)
+		doc.text('Nomor Ijazah Nasional', 77, 82)
+		doc.text(':', 127, 82)
+		doc.text(document.getElementById('noijazah').textContent, 129, 82)
+		doc.text('Status', 77, 87)
+		doc.text(':', 127, 87)
+		doc.text('Akreditasi B', 129, 87)
+		doc.text('Keputusan BAN-PT 980/SK/BAN-PT/Aked/S/IV/2018', 129, 92)
+		doc.text('Tanggal 10 April 2018', 129, 97)
+		doc.text('Ijazah ini diserahkan setelah yang bersangkutan memenuhi semua persyaratan yang ditentukan, dan kepadanya', 47, 115)
+		doc.text('dilimpahkan segala wewenang dan hak berhubungan dengan ijazah yang dimilikinya, serta berhak memakai sebutan gelar', 47,120)
+		doc.text('Padang,', 172, 143)
+		doc.text(document.getElementById('twd').textContent+' '+document.getElementById('bwd').textContent+' '+document.getElementById('thwd').textContent,187, 143)
+		doc.text('Ketua,', 54, 148)
+		doc.text('Wakil Ketua I,', 172, 148)
+		doc.text('STMIK Indonesia Padang Account : '+document.getElementById('account').textContent, 10, 198)
+		doc.setFont('times', 'bold')
+		doc.text('Sarjana Komputer (S.Kom).', 47, 125)
+		doc.text('Prof. Dr.-Ing. Ir. Hairul Abral', 54, 168)
+		doc.text('Ilfa Stephane, S.Si, M.Si', 172, 168)
+		doc.save('ijazah.pdf')
+	  }
+	  document.getElementById('bpdf').addEventListener('click', pdf);
+	  const ipfs = window.IpfsHttpClient('ipfs.infura.io', '5001', { protocol: 'https' });
+	  	//UPLOAD IPFS
+		$("#upload").on("change", function() {
+		var reader = new FileReader();
+		reader.onload = function (e) {
+
+		const magic_array_buffer_converted_to_buffer = buffer.Buffer(reader.result);
+		ipfs.add(magic_array_buffer_converted_to_buffer, (err, result) => {
+			console.log(err, result);
+
+	  	let ipfsLink = "<a href='https://gateway.ipfs.io/ipfs/" + result[0].hash + "'>" + result[0].hash + "</a>";
+	  	document.getElementById("link").innerHTML = ipfsLink;
+		//BARCODE
+ 		var barCode = document.getElementById('barCode');
+ 		var img = '<img src='+'"https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=' + ipfsLink+'">';
+ 		barCode.innerHTML=img;
+ 		var img=$('<img>').attr('src', 'https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl='+ipfsLink);
+ 		$('#barCode').html(img);
+			})
+			}
+		reader.readAsArrayBuffer(this.files[0]);
+})
+function printlink(printarea) {
+     var printContents = document.getElementById(printarea).innerHTML ;
+     var originalContents = document.body.innerHTML;
+
+     document.body.innerHTML = printContents;
+
+     window.print();
+
+     document.body.innerHTML = originalContents;
+}
+    </script>
+  </body>
+</html>
